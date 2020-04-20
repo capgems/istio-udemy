@@ -24,7 +24,7 @@ This code is not production standard - it is intended merely to generate some in
 Consumes vehicle position reports from a queue. Stores them in-memory for testing.
 
 * __istio-fleetman-staff-service__
-A microservice that calculates the speed of the vehicle that is being tracked along with the list of vehicles data
+A microservice that calculates the speed of the vehicle that is being tracked along with the list of vehicles data.
 
 * __istio-fleetman-vehicle-telemetry__
 A microservice that traces/tracks the vehicle position.
@@ -34,13 +34,21 @@ A front end angular application rendering the list of vehicles in the left panel
 
 # Istio Installation
 
-Istio is going to be installed using kubectl and minikube, the installation of Kubectl and Minikube is given below. 
+Istio is going to be installed using __kubectl__ and __minikube__, the installation of Kubectl and Minikube is given below. 
 
 ## Kubectl Installation
-
-
+Follow K8S kubectl installation instructions according to your OS given at [__kubectl__](https://kubernetes.io/docs/tasks/tools/install-kubectl).
+or through 
+on MacOS '__brew install kubectl__'
+On Windows easily using [chocolatey](https://chocolatey.org/install) package manager using __choco install kubectl__
 
 ## Minikube Installation
+Follow minikube installation instructions according to your OS given at [__K8S Minikube__](https://kubernetes.io/docs/tasks/tools/install-kubectl).
+or through
+On Windows easily using [chocolatey](https://chocolatey.org/install) package manager using __choco install kubectl__
+
+### How to start Minikube
+minikube start --memory 8192 
 
 # The Course Architecture diagram
 TODO
