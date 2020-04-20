@@ -44,11 +44,13 @@ On Windows easily using [chocolatey](https://chocolatey.org/install) package man
 
 ## Minikube Installation
 Follow minikube installation instructions according to your OS given at [__K8S Minikube__](https://kubernetes.io/docs/tasks/tools/install-kubectl).
+
 or through
-On Windows easily using [chocolatey](https://chocolatey.org/install) package manager using __choco install kubectl__
+
+On Windows easily using [chocolatey](https://chocolatey.org/install) package manager using __choco install minikube__
 
 ### How to start Minikube
-minikube start --memory 8192 
+minikube start --memory 8192 , 4gb(4096) can also be used to start minikube, starting with 8gb to avoid any runtime issues while exercising the course scenarios. 
 
 # The Course Architecture diagram
 TODO
