@@ -1,0 +1,194 @@
+
+choco install minikube
+
+## Start minkube with 8GB
+minikube start --memory 8192
+
+## Start minkube with 6GB
+minikube start --memory 6144 
+
+## Start minkube with 4GB
+minikube start --memory 4096
+
+## Start minkube with hyperv
+minikube start --memory 4096 --driver=hyperv
+
+## The YAML files are segregated based on each istio feature.
+## For running each feature demo apply each yaml in the numeral order of file.
+
+#### Important note on Istio installation using each feature folder yaml files
+## For installing istio using kubectl you should use 2-istio-minikube-reduced.yaml or 2-istio-minikube.yaml
+## but not both. Reduced one is old version of istio and the other one is of Istio 1.5
+
+## Start minkube with virtualbox
+minikube start --memory 4096 --driver=virtualbox
+
+kubectl apply -f 1-istio-init.yaml
+
+kubectl apply -f 2-istio-minikube-reduced.yaml
+
+kubectl apply -f 3-kiali-secret.yaml
+
+kubectl describe namespace default
+
+kubectl apply -f 4-label-default-namespace.yaml
+
+kubectl get all -n istio-system
+
+kubectl label namespace default istio-injection=enabled
+
+kubectl get all
+
+kubectl get po -n istio-system
+
+kubectl get svc -n istio-system
+
+kubectl get svc 
+
+kubectl apply -f 5-application-no-istio.yaml
+
+---------------
+
+# to revert/remove the istio/k8s changes, apply them in reverse order.
+# For each feature demo, you still can delete minikube and apply each file in numeric order 
+
+kubectl delete -f 5-application-no-istio.yaml
+
+kubectl delete -f 4-label-default-namespace.yaml
+
+kubectl delete -f 3-kiali-secret.yaml
+
+kubectl delete -f 2-istio-minikube-reduced.yaml
+
+kubectl delete -f 1-istio-init.yaml
+
+
+## The IP address of each url should be replaced with the ip of your installed minikube obtained though command 'minikube ip'
+
+http://172.20.219.101:31000 - kiali
+
+http://172.20.219.101:31001 - Jaeger
+
+http://172.20.219.101:31002 - Grafana
+
+
+http://172.20.219.101:30080 - fleet management app
+
+## Another one important note to run some of these curl commands please try to install cygwin- https://cygwin.com/install.html if your environment is windows
+## Using cygwin you can easily emulate the linux commands on windows
+
+## To continuosly hit the fleetman-web application run the folowing command
+while true; do curl -s http://172.20.219.101:30080 | grep title; sleep 0.2; done;
+
+## To continuosly hit the fleetman-staff-service service run the folowing command
+while true; do curl -s http://172.20.219.101:30080/vehicle/City%20Truck; sleep 0.2; done;
+
+
+Telemetry
+==========
+
+cd "path to _course_files/1 Telemetry"
+
+kubectl apply -f 1-istio-init.yaml
+
+kubectl apply -f 2-istio-minikube-reduced.yaml
+
+kubectl apply -f 3-kiali-secret.yaml
+
+kubectl describe namespace default
+
+kubectl apply -f 4-label-default-namespace.yaml
+
+#kubectl label namespace default istio-injection=enabled
+
+kubectl get po -n istio-system
+
+kubectl get all -n istio-system
+
+kubectl apply -f 5-application-no-istio.yaml
+
+kubectl get po
+
+kubectl get all
+
+
+http://172.20.219.101:31000 - kiali
+
+http://172.20.219.101:31001 - Jaeger
+
+http://172.20.219.101:31002 - Grafana
+
+
+http://172.20.219.101:30080 - fleet management app
+
+## Canary Demo of fleetman-staff-service
+## ======================================
+
+cd "path to _course_files/2 Traffic"
+
+kubectl apply -f 5-application-no-istio.yaml
+
+kubectl apply -f 5-application-no-istio-basic-canary-zero-replica.yaml
+
+kubectl apply -f 5-application-no-istio-basic-canary.yaml
+
+
+------ Kiali UI-----------
+
+
+
+------ Using Virtualservice and Destination Rules ------
+
+kubectl apply -f 6-istio-rules.yaml
+
+kubectl get vs
+
+kubectl get dr
+
+while true; do curl http://172.20.219.101:30080/api/vehicles/driver/London%20Riverside ; echo; sleep 0.2 ; done;
+
+
+## Gateway Demo
+## ============
+
+cd "path to _course_files/3 Gateways"
+
+kubectl delete -f 5-application-no-istio.yaml
+
+kubectl apply -f 5-application-no-istio.yaml
+
+while true; do curl -s http://172.20.219.101:30080 | grep title; sleep 0.2 ; done;
+
+# Solution to weighted canary of 10-90 of UI application as it is external facing UI with Gateway configured with weighted cananry traffic rules 
+# -------------------------------------------------------------------------------------------------------------------------------------
+
+kubectl apply -f 6-istio-rules-10-90-percent-weighted-canany.yaml
+
+while true; do curl -s http://172.20.219.101:31380 | grep title; sleep 0.2 ; done;
+
+## Prefix - demo on fleetman-web-app showing Red/Grey UI header using URI paths. 
+## ------------------------------------------------------------------------------
+
+cd "path to _course_files/3 Gateways Solution - Prefix Routing"
+
+curl -s http://172.20.219.101:31380/experimental | grep title
+
+curl -s http://172.20.219.101:31380/canary | grep title
+
+
+## Dark Releases - demo on fleetman-staff-service showing driver photo or a place holder image using headers 
+## ---------------------------------------------------------------------------------------------------------
+
+cd "path to _course_files/4 Dark Releases"
+
+kubectl apply -f 7-dark-release-rules-no-fault.yaml
+
+while true; do curl -s  http://172.20.219.101:31380 | grep title; sleep 0.2 ; echo; done;
+
+while true; do curl -s --header "x-my-header:canary" http://172.20.219.101:31380 | grep title; sleep 0.2 ; echo; done;
+
+while true; do curl -s --header "x-my-header:canary" http://172.20.219.101:31380 | grep title; sleep 0.2 ; echo; done;
+
+#### TODO for fault injection
+
+
