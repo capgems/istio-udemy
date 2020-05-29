@@ -1,0 +1,183 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Istio hands-on codelab</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="istio-workshop"
+                  title="Istio hands-on codelab"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="Overview" duration="2">
+        <h2 class="checklist" is-upgraded>What You&#39;ll Learn</h2>
+<p>In this codelab we are going to demonstrate some of the Istio features like</p>
+<ul>
+<li><strong>Observability</strong> through <em>Telemetry</em></li>
+<li><strong>Trafic management<br></strong></li>
+</ul>
+<p>For demonstarting istio features we are going to use one sample application called Fleetman service consists of various micro services deployed using k8s.</p>
+<ul>
+<li><strong>Setting up the env, Installing Minikube</strong></li>
+<li><strong>Installing Istio using kubectl</strong></li>
+<li><strong>Observability demo using</strong><ul>
+<li>Kiali</li>
+<li>Jaeger</li>
+<li>Grafana</li>
+</ul>
+</li>
+<li><strong>Traffic routing</strong><ul>
+<li><em>Basic Canary demo using k8s</em></li>
+<li><em>Istio Canary demo of weighted traffic routing</em>  (33%-66% and 95%-5% wighted percentage routing)<br><br></li>
+</ul>
+</li>
+<li><strong>Gateway</strong><ul>
+<li><em>Istio Gateway (Egress)</em></li>
+<li><em>Prfix based uri routing</em></li>
+<li><em>Header based routing</em></li>
+<li><em>Dark Releases</em></li>
+</ul>
+</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Environment Setup" duration="15">
+        <h2 is-upgraded>Kubectl Installation</h2>
+<ul>
+<li>Follow K8S kubectl installation instructions according to your OS given at <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl" target="_blank"><br>kubectl installation</a>.</li>
+</ul>
+<p>on MacOS run ‘<strong>brew install kubectl</strong>‘<br>On Windows using <a href="https://chocolatey.org/install" target="_blank">chocolatey</a> package manager using ‘<strong>choco install kubectl</strong>‘</p>
+<ul>
+<li>Check kubectl installation by running ‘<strong>kubectl version</strong>‘</li>
+</ul>
+<pre><code> $ kubectl version --client
+</code></pre>
+<h2 is-upgraded>Minikube Installation</h2>
+<ul>
+<li>Follow minikube installation instructions according to your OS given at <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl" target="_blank"><br>K8S Minikube</a>.</li>
+</ul>
+<p>on MacOS run ‘<strong>brew install minikube</strong>‘<br>On Windows using <a href="https://chocolatey.org/install" target="_blank">chocolatey</a> package manager using ‘<strong>choco install minikube</strong>‘</p>
+<ul>
+<li>Check minikube installation by running ‘<strong>minkube version</strong>‘<pre><code>$ minikube version
+</code></pre>
+<h2 is-upgraded>Start Minikube</h2>
+<pre><code>$ minikube start --memory 4096 
+</code></pre>
+</li>
+</ul>
+<p>check minikube status by running ‘<strong>minikube status</strong>‘</p>
+<pre><code> $ minikube status
+</code></pre>
+<p>The minikube status should shown the following status as shown in below figure.</p>
+<p class="image-container"><img alt="Minikube Status" src="img\214d9bdc5207a25.PNG"></p>
+<p>Check kubectl installation by running ‘<strong>kubectl version</strong>&#39; whcih should give both client and server details.</p>
+<pre><code> $ kubectl version 
+</code></pre>
+<h2 is-upgraded>Clone the demo Repo</h2>
+<p>Clone the folowing <a href="https://github.com/naganinja/istio-udemy.git" target="_blank">demo repo</a> to exercise the istio features</p>
+<pre><code> $ git clone https://github.com/naganinja/istio-udemy.git
+</code></pre>
+<h2 is-upgraded>Install Istio</h2>
+<p>Change the directory to the clone repo/_course_files</p>
+<pre><code> $ cd path-to-cloned-repo/_course_files/1 Telemetry
+</code></pre>
+<p>Now run the following commands one after the other</p>
+<p>‘kubectl apply -f 1-istio-init.yaml&#39; will initialize the istio</p>
+<pre><code>$  kubectl apply -f 1-istio-init.yaml
+</code></pre>
+<p>‘kubectl apply -f 2-istio-minikube-reduced.yaml&#39; will install the istio</p>
+<pre><code>$  kubectl apply -f 2-istio-minikube-reduced.yaml
+</code></pre>
+<p>‘kubectl apply -f 3-kiali-secret.yaml&#39; will setup the user secret credential for Kiali login user admin/admin</p>
+<pre><code>$  kubectl apply -f 3-kiali-secret.yaml
+</code></pre>
+<p>‘kubectl describe namespace default&#39; will describe the default namespace of minikube k8s</p>
+<pre><code>$  kubectl describe namespace default
+</code></pre>
+<p>Now let&#39;s add a label ‘istio-injection=enabled&#39; to inject a envoy proxy along side of an each and every application getting deployed on pods.</p>
+<pre><code>$  kubectl apply -f 4-label-default-namespace.yaml
+</code></pre>
+<p>‘Now check whether the label ‘istio-injection=enabled&#39; is added to default namespace or not&#39; by running</p>
+<pre><code>$  kubectl describe namespace default
+</code></pre>
+<p>‘Now check the istio installation by verifying the running pods by running ‘kubectl get po -n istio-system&#39;</p>
+<pre><code>$  kubectl get po -n istio-system
+</code></pre>
+<p>make sure all the pods are running/completed as shown in below figure.</p>
+<p class="image-container"><img alt="Istio System Pod's Status" src="img\81cb4d5ab4f0659.PNG"></p>
+<h2 is-upgraded>Install sample fleetman micro service application</h2>
+<p>Now let&#39;s install sample Fleetman microservice application by running ‘kubectl apply -f 5-application-no-istio.yaml&#39;</p>
+<pre><code>$  kubectl apply -f 5-application-no-istio.yaml
+</code></pre>
+<p class="image-container"><img alt="Fleetman microservice application Pod's Status" src="img\f1e02c7c3a298c44.PNG"></p>
+<h2 is-upgraded>Get Minikube IP</h2>
+<pre><code>$  minikube ip
+</code></pre>
+<h2 is-upgraded>Access Istio UI&#39;s</h2>
+<ul>
+<li>Kiali webapp –&gt; http://minikubeip:31000</li>
+<li>Jaegar webapp –&gt; http://minikubeip:31001</li>
+<li>Grafana webapp –&gt; http://minikubeip:31002</li>
+</ul>
+<h2 is-upgraded>Install sample fleetman micro service application</h2>
+<h2 is-upgraded>Open Fleetman web application</h2>
+<p>Now let&#39;s open the Fleetman web application in browser using minikube ip</p>
+<ul>
+<li>Fleetman webapp –&gt; http://minikubeip:30080</li>
+</ul>
+<p>//TODO - add the architecture digram of fleetman microservice application</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Istio Observability Demo" duration="0">
+        <p>Kiali - Kiali provides information on what microservices are part of my Istio service mesh and how they are connected to each other and how they are performing.</p>
+<p>Let&#39;s visualize the service mesh topolgy of sample fleetman micro service application using Kiali web application UI http://minikubeip:31000</p>
+<p>Login to Kiali UI using crdentials admin/admin</p>
+<p class="image-container"><img alt="Kiali Login " src="img\4ff3fb58764b0345.PNG"></p>
+<p>Kiali Services tab shows what are the different services that are deployed in servicemesh</p>
+<p class="image-container"><img alt="Kiali Services " src="img\189d758ee58ff9a7.PNG"></p>
+<p>Kiali Workloads tab shows what are the different workloads that are part of servicemesh</p>
+<p class="image-container"><img alt="Kiali Workloads " src="img\81203ce5b82cb717.PNG"></p>
+<p>Kiali Applications tab shows what are the different applications that are part of servicemesh</p>
+<p class="image-container"><img alt="Kiali Applications " src="img\67be945581d5250c.PNG"></p>
+<p>Kiali ServiceGraph tab shows what are the different services that are part of servicemesh, and how they are connected to each other.</p>
+<p class="image-container"><img alt="Kiali ServiceGraph " src="img\871e1a23cf5e5651.PNG"></p>
+<p>Initially the service graph show the traffic connection grayed out between fleetman-webapp service to webapp application as shown in below figure.</p>
+<p class="image-container"><img alt="Kiali ServiceGraph " src="img\86063b4b1deed9a8.png"></p>
+<p>Now let&#39;s access the fleetman web app continously through curl, which will update the Kiali service graph dynamically by depicting the traffic connectivity in green from fleetman-webapp service to web application as shown in below figure.</p>
+<p class="image-container"><img alt="Kiali ServiceGraph " src="img\ac2353375a771370.png"></p>
+<p>## Istio Traffic management Demo</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>

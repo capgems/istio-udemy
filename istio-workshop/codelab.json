@@ -1,0 +1,24 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2020-05-29T14:23:19+05:30",
+  "id": "istio-workshop",
+  "duration": 17,
+  "title": "Istio hands-on codelab",
+  "authors": "Nagamohan Koganti",
+  "summary": "Istio hands-on codelab",
+  "source": "Istio-codelab-upd.md",
+  "theme": "",
+  "status": [
+    "draft"
+  ],
+  "category": [
+    "istio"
+  ],
+  "tags": [
+    "medium"
+  ],
+  "url": "istio-workshop"
+}
