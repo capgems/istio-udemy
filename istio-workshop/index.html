@@ -167,7 +167,97 @@
 <p class="image-container"><img alt="Kiali ServiceGraph " src="img\86063b4b1deed9a8.png"></p>
 <p>Now let&#39;s access the fleetman web app continously through curl, which will update the Kiali service graph dynamically by depicting the traffic connectivity in green from fleetman-webapp service to web application as shown in below figure.</p>
 <p class="image-container"><img alt="Kiali ServiceGraph " src="img\ac2353375a771370.png"></p>
-<p>## Istio Traffic management Demo</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Istio Traffic management Demo" duration="5">
+        <h2 is-upgraded>Canary Deployment</h2>
+<p>In this code excercise we are going to see how canary deployment can be done using K8S vs Istio.<br>First lets see the 50-50 deployment of k8s with safe version and risky version of Staff service deployed to serve 50% requests with safe the other with risky.<br>Here the safe version will show a placeholder image , the risky version will show the actual photograph of driver which is developed newly and getting tested with k8s canary.</p>
+<ul>
+<li>Lets cd into &#34;2 Traffic&#34; and deploy the <em>‘5-application-no-istio.yaml&#39;</em> which deploys placeholder and actual photgraph version staff service.<pre><code>$  cd &#39;clone-repo/_course_files/2 Traffic&#39;  
+$  kubectl apply -f 5-application-no-istio.yaml
+</code></pre>
+<ul>
+<li>Lets open Fleetman web app frontend UI http://minikubeip:30080 and verify the 50-50 traffic of staff service being served by k8s or not by clicking Trucks in the left hand panel of UI one after the other. Try to observe the behavior of placeholder/actual photograph being served in right hand bottom part.</li>
+<li>Lets run some curl command which continously try to acces the staff service responsible for serving the driver photograph of a truck.If you are on windows try to download <a href="https://curl.haxx.se/windows" target="_blank"><br>curl</a> and use it or else download <a href="https://www.cygwin.com/setup-x86_64.exe" target="_blank"><br>cygwin</a> and try to run the following commmand.</li>
+</ul>
+<pre><code>while true; do curl http://192.168.99.105:30080/api/vehicles/driver/London%20Riverside ; echo; sleep 0.2 ; done;
+</code></pre>
+</li>
+<li>You should be observing the response from staff service in a 50-50 manner as shown in below figure<br><img alt="K8s 50-50 Canary" src="img\5a14bd392bd81d7.PNG">.</li>
+</ul>
+<p>So far we have just seen 50-50 percentage k8s canary deployment, what if we want canary to be deployed in 90-10 % way? Can this be achived by k8s. Yes we can, but with the cost of 9 replicas of safe service version and 1 replica of risky staff version resources. Which is not desirable as it is resource intensive.</p>
+<p>Lets see how Istio is going to solve with less pods like 1 pod for safe and 1 pod for risky version using two important custom resource definitions introduced by istio called <strong>‘VirtualService&#39;</strong> and <strong>‘DestinationRule&#39;</strong>. You can get more info on these at istio-docs <a href="https://istio.io/docs/concepts/traffic-management/#virtual-services" target="_blank">VirtualService</a> &amp; <a href="https://istio.io/docs/concepts/traffic-management/#destination-rules" target="_blank">DestinationRule</a>.</p>
+<p>Lets move ahead with our demo of 90-10 weighted percentage traffic split canary deployment using Istio. Before applying istio&#39;s virtual services and destination rules lets run the above continuous curl command and then run the following command.</p>
+<pre><code>$  kubectl apply -f 6-istio-rules.yaml
+</code></pre>
+<p>Observe how dynamically the behaviour is getting changed from k8s 50-50 to the serving of 90-10 weighted percentage traffic split, It&#39;s happening with out changing any application service code or any down time through istio&#39;s configuration file ‘6-istio-rules.yaml&#39; application as shown in below figure.</p>
+<p class="image-container"><img alt="Istio's 90-10 Canary Deployment " src="img\6d8517c1e1a512da.PNG"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Istio Gateway Demo" duration="10">
+        <p>Let&#39;s see how Istio Gateway being used for managing inbound and outbound traffic of your mesh. The use cases we are going to demo here are</p>
+<ul>
+<li>URI prefix based routing</li>
+<li>Dark releases with header based routing</li>
+</ul>
+<p>demonstarted through <strong>/canary</strong> , <strong>/experimental</strong> URI paths &amp; with headers serving different versions of front end fleetman web UI.</p>
+<h2 is-upgraded>URI paths based routing</h2>
+<p>The scenario we are going to demo here is that the fleetman front-end angular UI microservice have two versions of UI, the canary or experimental ones show the Red ribbon titlte as ‘Fleet Management Istio Premium Enterprise Edition&#39; if the UI being accessed with /canary or /experimental in URI or else normal Gray color ribboned title &#34;.</p>
+<p>Lets run the following command to apply the URI prefix gateway rules.</p>
+<pre><code>$  cd &#39;clone-repo/_course_files/3 Gateways Solution - Prefix Routing&#39;  
+$  kubectl apply -f 6-istio-rules.yaml
+</code></pre>
+<p>To verify the above istio rules lets run the following commands</p>
+<pre><code>curl -s http://192.168.99.106:31380/experimental | grep title
+</code></pre>
+<pre><code>curl -s http://192.168.99.106:31380/canary | grep title
+</code></pre>
+<p>The above commands will output the content as shown in below figure, where both <strong>/experimental</strong> and <strong>/canary</strong> will return title as <strong>‘Fleet Management Istio Premium Enterprise Edition&#39;</strong> ,where as plain root url will return title as <strong>‘Fleet Management&#39;</strong></p>
+<p class="image-container"><img alt="Istio's Prefix based routing" src="img\6f5c55a64fe78a6f.PNG"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Istio Dark releases demo" duration="5">
+        <p>So far we have just witnessed how gateway can be used to route the traffic using <strong>‘Virtual Services&#39;</strong> &amp; <strong>‘Destination Rules&#39;</strong>, now lets see how Dark Releases can be done using Istio in production clusters with out impacting the exisitng application using header based routing.</p>
+<p>Dark releases are the ones where newly developed featured can be pushed to production clusters and get tested with out impacting any existing application features. This gives a great advantage of reducing operation costs of application in terms of not provisioning a dev/staging cluster equalent to production to test how the newly developed features are getting behaving.</p>
+<p>Lets clean the minikube cluster by running</p>
+<pre><code>$  minikube delete
+</code></pre>
+<p>and then apply all the yaml files of <strong>‘4 Dark Releases&#39;</strong> folder one after the other in numeric order, while applying these make sure you give some gap after running <strong>‘kubectl apply -f 2-istio-minikube-reduced.yaml&#39;</strong> and wait for all the pods of <strong>istio-system</strong> namespace are up and running using command <strong>‘kubectl get po -n istio-system&#39;</strong>.</p>
+<p>Then apply remaining yaml one by one.</p>
+<p>Lets run the following command to apply the dark release rules, where users can access the newly developed features in production by passing some header and there by validate them.</p>
+<pre><code>$  cd &#39;clone-repo/_course_files/4 Dark Releases&#39;  
+$  kubectl apply -f  6-istio-rules.yaml
+$  kubectl apply -f  7-dark-release-rules.yaml
+</code></pre>
+<p>Now let&#39;s verify the above applied istio rules installing browser extensions like <a href="https://chrome.google.com/webstore/detail/modheader/idgpnmonknjnojddfkpgkljpfnnfcklj?hl=en" target="_blank"><br>‘Modheader&#39;</a> by passing some custom headers as configured in 6-istio-rules.yaml.</p>
+<p>The extension we are using here is for chrome called as <strong>‘Modheader&#39;</strong></p>
+<p>Lets access the url from bowser with following headers added in Modheader as shown in the figures below.</p>
+<ul>
+<li>First access the fleetman web app <strong>without</strong> passing header <strong>x-my-header</strong> and observe how the Title being rendered, you should observe the UI like the one given below.</li>
+</ul>
+<p class="image-container"><img alt="Istio's Dark release header based routing - no header" src="img\e7243dc072ec0e38.png"></p>
+<ul>
+<li>Now access the fleetman web app by passing header <strong>x-my-header</strong> with value <strong>canary</strong> and UI title should be rendered in <strong>red banner</strong> like the one given below.</li>
+</ul>
+<p class="image-container"><img alt="Istio's Dark release header based routing - with header" src="img\25d27a241df5fac3.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Istio Fault Injection Demo" duration="5">
+        <p>TODO</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Istio mTLS Demo" duration="2">
+        <p>TODO</p>
 
 
       </google-codelab-step>

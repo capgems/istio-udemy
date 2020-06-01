@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD> <TITLE>curl for Windows</TITLE>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" type="text/css" href="https://curl.haxx.se/curl.css">
+<link rel="shortcut icon" href="https://curl.haxx.se/favicon.ico">
+<link rel="icon" href="https://curl.haxx.se/logo/curl-symbol.svg" type="image/svg+xml">
+<style type="text/css">
+a.windl {
+  font-size: 200%;
+}
+p.windl {
+  //padding-left: 2em;
+}
+</style>
+</HEAD>
+<body bgcolor="#ffffff" text="#000000">
+<div class="main">
+<div class="menu">
+<div class="dropdown">
+  <a class="dropbtn" href="https://curl.haxx.se/download.html">Download</a>
+  <div class="dropdown-content">
+    <a href="https://github.com/curl/curl">Browse source</a>
+    <a href="https://curl.haxx.se/changes.html">Changelog</a>
+  </div>
+</div>
+<div class="dropdown">
+  <a class="dropbtn" href="https://curl.haxx.se/docs/">Documentation</a>
+  <div class="dropdown-content">
+    <a href="https://curl.haxx.se/docs/projdocs.html">Project</a>
+      <small>
+      <a href="https://curl.haxx.se/docs/bugbounty.html">&nbsp; Bug Bounty</a>
+      <a href="https://curl.haxx.se/docs/help-us.html">&nbsp; Help us</a>
+      <a href="https://curl.haxx.se/docs/knownbugs.html">&nbsp; Known bugs</a>
+      <a href="https://curl.haxx.se/docs/todo.html">&nbsp; TODO</a>
+      </small>
+    <a href="https://curl.haxx.se/docs/protdocs.html">Protocols</a>
+      <small>
+      <a href="https://curl.haxx.se/docs/caextract.html">&nbsp; CA bundle</a>
+      <a href="https://curl.haxx.se/docs/http-cookies.html">&nbsp; HTTP Cookies</a>
+      <a href="https://curl.haxx.se/docs/http2.html">&nbsp; HTTP/2</a>
+      <a href="https://curl.haxx.se/docs/sslcerts.html">&nbsp; SSL Certs</a>
+      </small>
+    <a href="https://curl.haxx.se/docs/reldocs.html">Releases</a>
+      <small>
+      <a href="https://curl.haxx.se/docs/security.html">&nbsp; Security</a>
+      <a href="https://curl.haxx.se/docs/versions.html">&nbsp; Version numbers</a>
+      <a href="https://curl.haxx.se/docs/vulnerabilities.html">&nbsp; Vulnerabilities</a>
+      </small>
+    <a href="https://curl.haxx.se/docs/tooldocs.html">curl tool</a>
+      <small>
+      <a href="https://curl.haxx.se/docs/manpage.html">&nbsp; man page</a>
+      <a href="https://curl.haxx.se/docs/manual.html">&nbsp; Tutorial</a>
+      <a href="https://curl.haxx.se/docs/httpscripting.html">&nbsp; HTTP scripting</a>
+      </small>
+    <a href="https://curl.haxx.se/docs/whodocs.html">Who and Why</a>
+  </div>
+</div>
+<div class="dropdown">
+  <a class="dropbtn" href="https://curl.haxx.se/libcurl/">libcurl</a>
+  <div class="dropdown-content">
+    <a href="https://curl.haxx.se/libcurl/abi.html">ABI</a>
+    <a href="https://curl.haxx.se/libcurl/c/">API</a>
+    <a href="https://curl.haxx.se/libcurl/competitors.html">Competitors</a>
+    <a href="https://curl.haxx.se/libcurl/c/example.html">Examples</a>
+    <a href="https://curl.haxx.se/libcurl/features.html">Features</a>
+    <a href="https://curl.haxx.se//mail/list.cgi?list=curl-library">Mailing list</a>
+    <a href="https://curl.haxx.se/libcurl/relatedlibs.html">Related libs</a>
+    <a href="https://curl.haxx.se/libcurl/using/">Using libcurl</a>
+    <a href="https://curl.haxx.se/libcurl/c/libcurl-tutorial.html">Tutorial</a>
+    <a href="https://curl.haxx.se/libcurl/theysay.html">Testimonials</a>
+  </div>
+</div>
+<div class="dropdown">
+  <a class="dropbtn" href="https://curl.haxx.se/gethelp.html">Get Help</a>
+  <div class="dropdown-content">
+    <a href="https://cool.haxx.se/mailman/listinfo/curl-library">curl-library</a>
+    <a href="https://cool.haxx.se/mailman/listinfo/curl-users">curl-users</a>
+    <a href="https://curl.haxx.se/mail/">Mailing lists</a>
+    <a href="https://curl.haxx.se/book.html">Book: Everything curl</a>
+    <a href="https://curl.haxx.se/docs/videos/">Video presentations</a>
+    <a href="https://github.com/curl/curl/issues">Report a bug</a>
+    <a href="https://curl.haxx.se/support.html">Paid support</a>
+  </div>
+</div>
+<div class="dropdown">
+  <a class="dropbtn" href="https://curl.haxx.se/dev/">Development</a>
+  <div class="dropdown-content">
+    <a href="https://curl.haxx.se/dev/builds.html">Autobuilds</a>
+    <a href="https://curl.haxx.se/dev/code-style.html">Code Style</a>
+    <a href="https://curl.haxx.se/dev/contribute.html">Contribute</a>
+    <a href="https://curl.haxx.se/dev/deprecate.html">Deprecate</a>
+    <a href="https://curl.haxx.se/dev/internals.html">Internals</a>
+    <a href="https://curl.haxx.se/dev/release-notes.html">Release Notes</a>
+    <a href="https://curl.haxx.se/dev/release-procedure.html">Release Procedure</a>
+    <a href="https://curl.haxx.se/dev/roadmap.html">Roadmap</a>
+    <a href="https://curl.haxx.se/dev/runtests.html">Run Tests</a>
+    <a href="https://curl.haxx.se/dev/secprocess.html">Security Process</a>
+    <a href="https://curl.haxx.se/rfc/">Specifications</a>
+    <a href="https://curl.haxx.se/dev/testcurl.html">Test curl</a>
+  </div>
+</div>
+<div class="dropdown">
+  <a class="dropbtn" href="https://curl.haxx.se/news.html">News</a>
+  <div class="dropdown-content">
+    <a href="https://curl.haxx.se/changes.html">Changelog</a>
+    <a href="https://curl.haxx.se/docs/releases.html">Release table</a>
+  </div>
+</div>
+</div>
+<div class="contents">
+<div class="where"><a href="https://curl.haxx.se/">curl</a> / <a href="/download.html">Download</a> / <b>Windows downloads</b></div>
+<h1> curl 7.70.0 for Windows </h1>
+<div class="relatedbox">
+<b>Related:</b>
+<br><a href="/changes.html">Changelog</a>
+<br><a href="/download.html">Downloads</a>
+<br><a href="/docs/faq.html">FAQ</a>
+<br><a href="/docs/copyright.html">License</a>
+<br><a href="/docs/manpage.html">Manual</a>
+</div>
+<p>
+ These are the latest and most up to date <b>official</b> curl binary builds
+ for Microsoft Windows.
+<p>
+<!-- version: 7.70.0 -->
+ <b>curl version</b>: 7.70.0 <br>
+ <b>Build</b>: 7.70.0 <br>
+ <b>Date</b>: 2020-04-29 <br>
+ <b>Changes</b>: <a href="/changes.html#7_70_0">7.70.0 changelog</a>
+<h2> Packages </h2>
+<p class="windl">
+  <a href="dl-7.70.0/curl-7.70.0-win64-mingw.zip"><img src="/pix/GS-Download-icon.svg" width="90" height="90" style="float:left;"></a>
+<a href="dl-7.70.0/curl-7.70.0-win64-mingw.zip" class="windl">curl for 64 bit</a> <br>
+Size: 3.2 MB<br>
+sha256: e9c0fd84e685d2fedced794367089c09a230ff44948e0c363ab81702aab12426
+<p class="windl">
+ <a href="dl-7.70.0/curl-7.70.0-win32-mingw.zip"><img src="/pix/GS-Download-icon.svg" width="90" height="90" style="float:left;"></a>
+ <a href="dl-7.70.0/curl-7.70.0-win32-mingw.zip" class="windl">curl for 32 bit</a> <br>
+Size: 3.0 MB<br>
+sha256: 5b61f4592bafc14631bde12b0c6cfcf2e4d328507cb47cbefeb689269428bc77
+<h2> Specifications </h2>
+<p>
+  curl 7.70.0 was built and statically linked with
+  <ul>
+    <li> OpenSSL 1.1.1g [<a href=dl-7.70.0/openssl-1.1.1g-win64-mingw.zip>64bit</a>/<a href=dl-7.70.0/openssl-1.1.1g-win32-mingw.zip>32bit</a>]
+    <li> brotli 1.0.7 [<a href=dl-7.70.0/brotli-1.0.7-win64-mingw.zip>64bit</a>/<a href=dl-7.70.0/brotli-1.0.7-win32-mingw.zip>32bit</a>]
+    <li> libssh2 1.9.0 [<a href=dl-7.70.0/libssh2-1.9.0-win64-mingw.zip>64bit</a>/<a href=dl-7.70.0/libssh2-1.9.0-win32-mingw.zip>32bit</a>]
+    <li> nghttp2 1.40.0 [<a href=dl-7.70.0/nghttp2-1.40.0-win64-mingw.zip>64bit</a>/<a href=dl-7.70.0/nghttp2-1.40.0-win32-mingw.zip>32bit</a>]
+    <li> zlib 1.2.11 [<a href=dl-7.70.0/zlib-1.2.11-win64-mingw.zip>64bit</a>/<a href=dl-7.70.0/zlib-1.2.11-win32-mingw.zip>32bit</a>]
+  </ul>
+<p>
+  The following tools/compilers were used in the build process:
+<ul>
+<li>binutils-mingw-w64-i686 2.34<li>binutils-mingw-w64-x86_64 2.34<li>clang 9.0.1<li>gcc-mingw-w64-i686 9.3-win32<li>gcc-mingw-w64-x86_64 9.3-win32<li>mingw-w64 7.0.0-2
+</ul>
+<p>
+ The <a href="https://ci.appveyor.com/project/curlorg/curl-for-win/build/1.0.1392/job/sktkjupleg9198bb">log from the build</a>.
+<p>
+ Get further details about these curl builds in
+ the <a href="https://github.com/curl/curl-for-win">curl-for-win github
+ repo</a>
+</div>
+</div>
+<script defer src="https://www.fastly-insights.com/insights.js?k=8cb1247c-87c2-4af9-9229-768b1990f90b" type="text/javascript"></script>
+</BODY>
+</HTML>
